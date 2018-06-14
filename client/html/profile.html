@@ -1,0 +1,85 @@
+<template name="profile">
+{{#if currentUser}}
+	<!-- profile -->
+	<div id="profile-wrap">
+		<center>
+
+			<!--edit profile-->
+
+			<!--add info on year of study + hosting fac-->
+			<h1 class="username">{{username}}</h1>
+			<h3>{{email}}</h3>
+			<h3>Year {{year}} from {{school}}</h3>
+			<!--currently the year and school thing does not work as not sure about syntax for calling them-->
+			<!--<h3>{{year}} from {{school}}</h3>-->
+				<div class="" id="">
+					<img src="up.png" class="profile-smiley" id="laugh">
+					<img src="down.png" class="profile-smiley" id="puke">
+					<!--<img src="puke.png" class="profile-smiley" id="puke">-->
+				</div>
+				<div class="score" id="">
+					<h3 class="count red block">{{userLaughScore}}</h3>
+					<h3 class="count yellow block">{{userPukeScore}}</h3>
+					<!--<h3 class="count green block">{{userPukeScore}}</h3>-->
+				</div>
+		</center>
+	</div>
+	<!-- End profile -->
+
+	{{#each userJokes}}
+
+	<div class="joke">
+		<div class="row">
+			<div class=".col-sm-6 .col-md-5 .col-lg-6" id="info">
+				<!--jokeName,semester,recommendation,diff,workload,steepness,jokePost-->
+				<h1 class="joke-title">{{jokeName}}</h1>
+				<p class="semester">Taken in: {{semester}}</p>
+				<p class="recommendation">Recommendation Level: {{recommendation}}</p>
+				<p class="diff">Difficulty Level: {{diff}}</p>
+				<p class="workload">Workload: {{workload}}</p>
+				<p class="steepness">Steepness of Bellcurve: {{steepness}}</p>
+
+			</div>
+			<!--keep to know how to click on png-->
+			<!--<div class=".col-sm-6 .col-md-5 .col-md-offset-2 .col-lg-6 .col-lg-offset-0" id="vote">
+
+				<img src="frown.png" class="smiley" id="frown">
+				<img src="puke.png" class="smiley" id="puke">
+			</div>
+			<div class="row" id="score">
+
+				<h3 class="count yellow block">{{frownScore}}</h3>
+				<h3 class="count green block">{{pukeScore}}</h3>
+			</div>
+		</div>
+
+		<p class="regular joke-desc">"{{jokePost}}"</p>-->
+		</div>
+
+		<p class="regular joke-desc">"{{jokePost}}"</p>
+		<!--<p class="meta">Posted by: {{author}} on {{date}}</p>-->
+		<p class="meta">Posted by: {{author}}(Year {{year}}) from {{school}} on {{date}}</p>
+
+		<!--only user can delete joke-->
+		<button class="btn btn-sml btn-warning" id="edit-joke">Edit Review</button>
+		<button class="btn btn-sml btn-danger" id="delete-joke">Delete Review</button>
+
+	</div>
+	<!-- End Joke -->
+	{{else}}
+	<h1>No Reviews to display</h1>
+	{{/each}}
+
+<!-- Js for switching file picker span -->
+<script type="text/javascript">
+	$(function() {
+		$("#profileImage:file").change(function () {
+			var fileName = $(this).val();
+			$("span").text(fileName);
+			$("label").hide();
+		});
+	});
+</script>
+
+{{/if}}
+</template>

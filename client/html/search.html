@@ -1,0 +1,171 @@
+<template name="search">
+
+<!--should be available to all users-->
+	<!-- search -->
+	<div id="search-wrap">
+		<!-- Easy Search -->
+		<div class="black searchbar">
+			{{> EasySearch.Input index=index attributes=inputAttributes }}
+		</div>
+
+		<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span>Advanced Search</button>
+		<!-- Modal Structure -->
+	  <div class="modal fade" id="myModal" role="dialog">
+	  <div class="modal-dialog">
+
+	    <!-- Modal content-->
+	      <div class="modal-content">
+	          <!--header-->
+	           <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal">&times;</button>
+	            <h4 class="modal-title">Advanced Search</h4>
+	              </div>
+	          <!--end header-->
+
+	          <!--body-->
+	          <div class="modal-body">
+							<h6 class="semester">Taken in:</h6>
+							<label for="semester" class="sr-only">Semester taken in: e.g. AY17/18 S1</label>
+							<input type="text" name="semester" id="semester" class="form-control" placeholder="e.g. AY17/18 S1" >
+
+							<h6 class="recommendation">Recommendation Level:</h6>
+			                  <select class="form-control" id="recommendation" name="recommendation">
+			                  <option>5</option>
+			                  <option>4</option>
+			                  <option>3</option>
+			                  <option>2</option>
+			                  <option>1</option>
+			                  </select>
+
+							<h6 class="diff">Difficulty of Module:</h6>
+			                  <select class="form-control" id="diff" name="diff">
+			                  <option>Hard</option>
+			                  <option>Moderate</option>
+			                  <option>Easy</option>
+			                  </select>
+
+			                <h6 class="workload">Workload of Module:</h6>
+			                 <select class="form-control" id="workload" name="workload">
+			                  <option>High</option>
+			                  <option>Moderate</option>
+			                  <option>Low</option>
+			                 </select>
+
+			                 <h6 class="steepness">Steepness of Bellcurve:</h6>
+			                 <select class="form-control" id="steepness" name="steepness">
+			                  <option>High</option>
+			                  <option>Moderate</option>
+			                  <option>Low</option>
+			                  <option>No bellcurve</option>
+			                 </select>
+
+										 </div>
+
+	          <!--end body-->
+
+	          <!--footer-->
+	          <div class="modal-footer">
+	            <button type="button" class="btn btn-info" data-dismiss="modal">Apply filters</button>
+	            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	          </div>
+	          <!--end of footer-->
+
+	        </div>
+	      <!--end of content-->
+	    </div>
+	  </div>
+	  <!--end of modal structure-->
+
+		{{#EasySearch.IfInputEmpty index=index }}
+			<div class="padded examples black">For example "CS1231"</div>
+		{{else}}
+			{{#if resultsCount}}
+				<div class="padded count-results black">{{resultsCount}} results found.</div>
+			{{/if}}
+		{{/EasySearch.IfInputEmpty}}
+
+		{{#EasySearch.IfSearching index=index }}
+			<div>Searching</div>
+		{{/EasySearch.IfSearching}}
+
+		<ol class="leaderboard">
+			{{#EasySearch.Each index=index }}
+				{{> User}}
+			{{/EasySearch.Each}}
+		</ol>
+
+		{{#EasySearch.IfNoResults index=index }}
+			<div class="padded no-results black">No results found</div>
+		{{else}}
+		{{/EasySearch.IfNoResults}}
+
+		{{> EasySearch.Pagination index=index maxPages=10 }}
+		{{! > EasySearch.LoadMore index=index}}
+
+		{{#if showMore}}
+			{{> EasySearch.Input name="mini-index" index=index attributes=inputAttributes }}
+			<ul>
+				{{#EasySearch.Each name="mini-index" index=index}}
+					<li>{{name}}</li>
+				{{/EasySearch.Each}}
+			</ul>
+
+		{{/if}}
+		<!-- Easy Search -->
+	</div>
+	<!-- End search -->
+
+</template>
+
+<template name="User">
+	<li class="user black {{selected}}" id="user-link">
+		<span class="name">{{jokeName}}</span>
+
+
+		{{#if selected}}
+		<div class="jokeInfo">
+				<!--jokeName,semester,recommendation,diff,workload,steepness,jokePost-->
+
+				<div>
+					<span class="posy blue">Semester: {{semester}}</span>
+				</div>
+					<br>
+
+				<div>
+					<span class="posy blue">Recommendation Level: {{recommendation}}</span>
+				</div>
+					<br>
+
+				<div>
+					<span class="posy blue">Difficulty: {{diff}}</span>
+				</div>
+					<br>
+
+			<div>
+				<span class="posy blue">{{jokePost}}</span>
+			</div>
+				<br>
+
+			<div>
+				<span class="author">Posted by: {{author}} on {{date}}</span>
+			</div>
+				<br>
+
+			<div>
+				<span class="vote-score red">Likes: {{laughScore}}</span>
+			</div>
+				<br>
+
+			<div>
+				<span class="vote-score yellow">Dislikes: {{pukeScore}}</span>
+			</div>
+				<br>
+
+			<div>
+				<span class="vote-score green">Comments: {{pukeScore}}</span>
+			</div>
+
+		</div>
+		{{/if}}
+	</li>
+</template>
